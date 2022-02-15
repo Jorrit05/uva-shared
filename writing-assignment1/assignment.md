@@ -1,4 +1,4 @@
-<!-- Author: Reinier Spanjer, Bob, Jorrit Stutterheim -->
+<!-- Author: Rein Spanjer, Bob, Jorrit Stutterheim -->
 <!-- Group number: 10 -->
 <!-- Student ID Jorrit: 13957899 -->
 <!-- Student ID Rein: 13558307 -->
