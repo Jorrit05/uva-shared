@@ -31,7 +31,7 @@ Fact person Identified by Alice, Bob, Chloe, David, Ellis
 
 ## Question 2
 
-**In eFLINT you can write?<BOOL-EXPR>., i.e. a question mark followed by a Boolean expression followed by a full stop. Using the terminology of mathematical relations, logic programming, or databaseprogramming, what is this construct used for?**
+**In eFLINT you can write?<BOOL-EXPR>., i.e. a question mark followed by a Boolean expression followed by a full stop. Using the terminology of mathematical relations, logic programming, or database programming, what is this construct used for?**
 
 ## Question 3
 
@@ -59,4 +59,30 @@ Fact person Identified by Alice, Bob, Chloe, David, Ellis
 
 ## Question 8
 
-**Write a C function that implements the ask-for-help act from the ‘Help with Homework’example. The goal is that when this function is called with some arguments, the function behaves like whenan instance of theask-for-helptype is triggered. Alternatively: use Haskell, Prolog, MySQL or pseudo-code instead of C.**
+**Write a C function that implements the ask-for-help act from the ‘Help with Homework’example. The goal is that when this function is called with some arguments, the function behaves like when an instance of the ask-for-help type is triggered. Alternatively: use Haskell, Prolog, MySQL or pseudo-code instead of C.**
+
+```haskell
+type Name = String
+type Relation = Name
+type ParentName = Name
+type Child = (Name, ParentName)
+type Holder = Name
+type Claimant =  Name
+type ChildName = Name
+type Parent = (Name, ChildName)
+
+isViolated :: (a -> Bool) -> a -> Bool
+isViolated p x | p x  = True
+               | otherwise = False
+
+isLegalParent ::  Child -> Parent -> Bool
+isLegalParent c p | fst c == snd p && fst p == snd c = True
+                  | otherwise = False
+
+createHomeworkDuty ::  Child -> Parent -> (Holder, Claimant, (a -> Bool) -> a -> Bool)
+createHomeworkDuty c p = (fst p, fst c, isViolated)
+
+askForHelp :: Child -> Parent -> Maybe (Holder, Claimant, (a -> Bool) -> a -> Bool)
+askForHelp c p | isLegalParent c p = Just $ createHomeworkDuty c p
+               | otherwise = Nothing
+```
