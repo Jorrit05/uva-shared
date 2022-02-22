@@ -33,6 +33,8 @@ Fact person Identified by Alice, Bob, Chloe, David, Ellis
 
 **In eFLINT you can write?<BOOL-EXPR>., i.e. a question mark followed by a Boolean expression followed by a full stop. Using the terminology of mathematical relations, logic programming, or database programming, what is this construct used for?**
 
+RS: I think it is assertions?
+
 ## Question 3
 
 **What (non-syntactical) differences do you see between the language constructs discussed in the answers to Q1 and Q2 and similar constructs in Prolog or MySQL? Consider, for example, expressive power,or behavior when executed. You can also compare with other logic programming or database languages if you prefer. Be specific.**
