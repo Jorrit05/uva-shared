@@ -45,6 +45,9 @@ RS: I think it is assertions?
 
 **Describe the parts of the eFLINT language that can be classified as imperative instructions. Explain how you decided that these are indeed the instructions of the language. For each kind of instruction, explain the effects these instructions can have.**
 
+An imperative instruction is where you describe the flow of the program on how to solve something. In E-Flint a scenario describes a series of actions, events and observations (blz 125)[http://ltvanbinsbergen.nl/files/papers/eflint.pdf]. 
+
+
 ## Question 5
 
 **What would you say is the state manipulated by an eFLINT program? How does it change overtime? How does the manipulation of state help with assessing a normative (legal) case for compliance?**
