@@ -31,7 +31,17 @@ Fact person Identified by Alice, Bob, Chloe, David, Ellis
 
 ## Question 2
 
-**In eFLINT you can write?<BOOL-EXPR>., i.e. a question mark followed by a Boolean expression followed by a full stop. Using the terminology of mathematical relations, logic programming, or database programming, what is this construct used for?**
+**In eFLINT you can write ?<BOOL-EXPR>., i.e. a question mark followed by a Boolean expression followed by a full stop. Using the terminology of mathematical relations, logic programming, or database programming, what is this construct used for?**
+
+In eFLINT this a boolean expression is used to validate if a Duty or Act has been performed according to the specifications.
+
+A similar statement in SQL:
+
+```SQL
+SELECT * FROM <TABLES> WHERE <BOOL-EXPR>
+
+SELECT grades FROM programmeer-talen WHERE group_number=10
+```
 
 ## Question 3
 
@@ -42,6 +52,8 @@ Fact person Identified by Alice, Bob, Chloe, David, Ellis
 ## Question 4
 
 **Describe the parts of the eFLINT language that can be classified as imperative instructions. Explain how you decided that these are indeed the instructions of the language. For each kind of instruction, explain the effects these instructions can have.**
+
+The 'scenario' part can be described as having an imperative style. Because it processes 'real-life' 'Duties', 'Acts', 'Events' and 'Observations' the order of steps is evaluated step by step, in an imperative manner.
 
 ## Question 5
 
@@ -56,6 +68,19 @@ Fact person Identified by Alice, Bob, Chloe, David, Ellis
 ## Question 7
 
 **Argue whether the language is statically or dynamically typed. How did you determine this?**
+
+The language is dynamically typed. In the homework example the program runs the same in the following case:
+
+```Haskell
+-- Fact person Identified by String
+Fact peron -- String identification removed
+
+Domain:
+-- Fact person Identified by Alice, Bob, Chloe, David
+-- persons removed
+```
+
+This without type information it still functions.
 
 ## Question 8
 
