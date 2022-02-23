@@ -43,6 +43,8 @@ SELECT * FROM <TABLES> WHERE <BOOL-EXPR>
 SELECT grades FROM programmeer-talen WHERE group_number=10
 ```
 
+RS: I think it is assertions?
+
 ## Question 3
 
 **What (non-syntactical) differences do you see between the language constructs discussed in the answers to Q1 and Q2 and similar constructs in Prolog or MySQL? Consider, for example, expressive power,or behavior when executed. You can also compare with other logic programming or database languages if you prefer. Be specific.**
@@ -53,7 +55,7 @@ SELECT grades FROM programmeer-talen WHERE group_number=10
 
 **Describe the parts of the eFLINT language that can be classified as imperative instructions. Explain how you decided that these are indeed the instructions of the language. For each kind of instruction, explain the effects these instructions can have.**
 
-The 'scenario' part can be described as having an imperative style. Because it processes 'real-life' 'Duties', 'Acts', 'Events' and 'Observations' the order of steps is evaluated step by step, in an imperative manner.
+An imperative instruction is where you describe the flow of the program on how to solve something. In E-Flint a scenario describes a series of actions, events and observations (blz 125)[http://ltvanbinsbergen.nl/files/papers/eflint.pdf].
 
 ## Question 5
 
