@@ -35,12 +35,10 @@ Fact person Identified by Alice, Bob, Chloe, David, Ellis
 
 In eFLINT this a boolean expression is used to validate if a Duty or Act has been performed according to the specifications.
 
-A similar statement in SQL:
+A similar statement in logic:
 
-```SQL
-SELECT * FROM <TABLES> WHERE <BOOL-EXPR>
-
-SELECT grades FROM programmeer-talen WHERE group_number=10
+```Lisp
+p -> q
 ```
 
 RS: I think it is assertions?
