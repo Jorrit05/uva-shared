@@ -47,8 +47,8 @@ This construct is used to determine if the state is as expected. After some mani
 
 **What (non-syntactical) differences do you see between the language constructs discussed in the answers to Q1 and Q2 and similar constructs in Prolog or MySQL? Consider, for example, expressive power,or behavior when executed. You can also compare with other logic programming or database languages if you prefer. Be specific.**
 
-EFlint looks like a language that is still in development. It lacks any support for syntax error messages. But the way that you can see all the different states of the program after each query is a nice feature to have. 
 
+EFlint looks like a language that is still in development. It lacks any support for syntax error messages. But the way that you can see all the different states of the program after each query is a nice feature to have. 
 
 
 ## Question 4
@@ -60,6 +60,8 @@ An imperative instruction is where you describe the flow of the program on how t
 ## Question 5
 
 **What would you say is the state manipulated by an eFLINT program? How does it change overtime? How does the manipulation of state help with assessing a normative (legal) case for compliance?**
+
+The state can be manipulated by doing an Act or by introducing facts like `+legal-parent(David,Chloe).` At every state it is clear what the Duty's are and if there are violations. In combinations with the validations after every state change it becomes immediately clear when there is a wrong state which is quite valuable in a legal case. 
 
 # Semantic analysis
 
