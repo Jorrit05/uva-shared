@@ -41,13 +41,15 @@ A similar statement in logic:
 p -> q
 ```
 
-RS: I think it is assertions?
+This construct is used to determine if the state is as expected. After some manipulations the programming can do this checks to be sure that the state is still as expected or that a error has been made. Even in application running in production this can monitor the state of the program. 
 
 ## Question 3
 
 **What (non-syntactical) differences do you see between the language constructs discussed in the answers to Q1 and Q2 and similar constructs in Prolog or MySQL? Consider, for example, expressive power,or behavior when executed. You can also compare with other logic programming or database languages if you prefer. Be specific.**
 
-# Imperative characteristics
+EFlint looks like a language that is still in development. It lacks any support for syntax error messages. But the way that you can see all the different states of the program after each query is a nice feature to have. 
+
+
 
 ## Question 4
 
@@ -69,18 +71,8 @@ An imperative instruction is where you describe the flow of the program on how t
 
 **Argue whether the language is statically or dynamically typed. How did you determine this?**
 
-The language is dynamically typed. In the homework example the program runs the same in the following case:
-
-```Haskell
--- Fact person Identified by String
-Fact peron -- String identification removed
-
-Domain:
--- Fact person Identified by Alice, Bob, Chloe, David
--- persons removed
-```
-
-This without type information it still functions.
+The language is statically typed. In the frames section it is possible to omit types and even overwrite the types of the different Facts. 
+But once this stage is successful and these types are used in the scenario these cannot change anymore. 
 
 ## Question 8
 
