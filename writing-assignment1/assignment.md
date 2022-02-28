@@ -1,9 +1,10 @@
-<!-- Author: Rein Spanjer, Bob, Jorrit Stutterheim -->
-<!-- Group number: 10 -->
-<!-- Student ID Jorrit: 13957899 -->
-<!-- Student ID Rein: 13558307 -->
-<!-- Study: Premaster software engineering -->
-<!-- Course: Programmeer talen -->
+Author: Rein Spanjer, Bob, Jorrit Stutterheim \
+Group number: 10 \
+Student ID Jorrit: 13957899 \
+Student ID Rein: 13558307 \
+Student ID Bob: 14076357 \
+Study: Premaster Software Engineering \
+Course: Programmeertalen
 
 # Declarative characteristics
 
@@ -11,23 +12,47 @@
 
 **Describe the parts of the eFLINT language used for defining relations (1 above), manipulating relations (2) and performing inference (3). Do not only list the constructs; describe how they are used to program with relations.**
 
-Relations in eFlint are defined using the following key words:
+Relations in eFLINT are defined using the following key words:
 
 - Fact: specifies an identity that has relations with other identities.
 - Placeholder: does not directly define a relation, but is used later to define complex relations.
 - Duty: Identifies a relation between two identities in which there is one party responsible for the duty and another party a claimant for that duty.
 - Act: Defines a set of actions between 2 parties that create responsibilities for both parties.
+- Identified by: Can describe a relation between types or just the type
 
 ```haskell
-Fact person
+Fact person Identified String
 Placeholder parent    For person
 Placeholder child     For person
 
 Fact natural-parent   Identified by parent * child
+Fact legal-parent     Identified by parent * child
+  Holds when natural-parent(parent,child)
 
 Domain:
 Fact person Identified by Alice, Bob, Chloe, David, Ellis
 ```
+
+The person is of the type String and the natural-parent is a relation between the parent type and the child type. 
+The relation of the legal-parent is automatically given when the natural-parent relation is added.
+
+Once the possible relation are defined it can be added in the initial state, like 
+```haskell
+natural-parent(Alice, Bob).
+```
+This will add a natural-parent and an legal-parent relation to Alice and Bob.
+To further manipulate these relations we can use Act and Duty. 
+With Act we can introduce Actions that have taken place which could trigger other things in the model. 
+
+```haskell
+Act ask-for-help
+  Actor      child
+  Recipient  parent
+  Creates    help-with-homework(parent,child)
+  Holds when legal-parent(parent,child)
+```
+
+The parent will only help the child if it asks for it and if it is a legal-parent. 
 
 ## Question 2
 
@@ -41,20 +66,29 @@ A similar statement in logic:
 p -> q
 ```
 
-This construct is used to determine if the state is as expected. After some manipulations the programming can do this checks to be sure that the state is still as expected or that a error has been made. Even in application running in production this can monitor the state of the program.
+This construct is used to determine if the state is as expected. After some manipulations the programming can do this checks to be sure that the state is still as expected or that a error has been made. Even in application running in production this can monitor the state of the program. Sometimes you don't want to do something before it is checked. If the check fails somebody can look at the model and fix it before it becomes worse or unnoticed.
 
 ## Question 3
 
 **What (non-syntactical) differences do you see between the language constructs discussed in the answers to Q1 and Q2 and similar constructs in Prolog or MySQL? Consider, for example, expressive power,or behavior when executed. You can also compare with other logic programming or database languages if you prefer. Be specific.**
 
-EFlint looks like a language that is still in development. It lacks any support for syntax error messages. But the way that you can see all the different states of the program after each query is a nice feature to have.
+eFLINT looks like a language that is still in development. It lacks any support for syntax error messages. But the way that you can see all the different states of the program after each query is a nice feature to have. With MySql you have more freedom to request data and manipulate data. This has it downsides or upsides in comparison with eFLINT, it depends on the application. 
+If I would like to have all the properties a records has I can do that in one easy query.
+
+```sql
+SELECT * 
+FROM PERSONS 
+WHERE AGE > 10
+```
+
+How would I do this in eFLINT? 
 
 
 ## Question 4
 
 **Describe the parts of the eFLINT language that can be classified as imperative instructions. Explain how you decided that these are indeed the instructions of the language. For each kind of instruction, explain the effects these instructions can have.**
 
-An imperative instruction is where you describe the flow of the program on how to solve something. In E-Flint a scenario describes a series of actions, events and observations (blz 125)[http://ltvanbinsbergen.nl/files/papers/eflint.pdf].
+An imperative instruction is where you describe the flow of the program on how to solve something. In E-Flint a scenario can describe things that can happen. Events, observations or actions. These things are different in nature and can also be different in eFLINT. These things are introduced in eFLINT in a imperative manner. 
 
 ## Question 5
 
