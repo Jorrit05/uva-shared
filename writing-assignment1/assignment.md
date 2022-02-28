@@ -68,6 +68,8 @@ The state can be manipulated by doing an Act or by introducing facts like `+lega
 
 **Explain in detail when a duty is considered violated and in which ways a duty can become violated,for example the help-with-homework duty of the ‘Help with Homework’ example. In your explanation you can give and refer to examples. However, your explanation needs to be valid for all duties defined in the language.**
 
+A duty is considered violated when the duty is either not terminated before one of the violations gets true, or cannot be done because one of the violations is already true when the duty is made. In the example ‘help-with-homework’, the duty is not violated when it is made. In the next line, the fact is created that Bob’s homework is due, which is in violation with the duty. The duty is terminated too late which causes the violation. If the fact ‘homework-due’ for Bob was stated before the duty was made, than the duty would be immediately in violation whenever the duty is made, unless the fact that Bob’s homework is due has been terminated. 
+
 ## Question 7
 
 **Argue whether the language is statically or dynamically typed. How did you determine this?**
