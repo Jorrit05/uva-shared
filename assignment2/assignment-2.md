@@ -21,8 +21,46 @@
 
 __Q1: In your own words, explain how message-passing in Akka avoids the problem of corrupted state, without having to rely on the programmer for avoiding the problem (e.g. by introducing locks to the code). In your answer, make explicit what is meant by the state of an actor and how messages are processed by an actor.__
 
+As stated by the Akka documentation, sending messages has the following two guarantees:
+
+- The actor send rule: the send of the message to an actor happens before the receive of that message by the same actor.
+- The actor subsequent processing rule: processing of one message happens before processing of the next message by the same actor.
+
+An 'actor' in Akka is a newly created separate process (Akka lightweight process, not a full system thread), which defines it's own state and behavior. The only way to communicate with an actor is to send it messages on its message queue, in general messages are handled FIFO (First In First Out). Thus, since each actor has its own state (no shared memory), and messages are handled one by one, state can not be corrupted by concurrent writes to the same memory block. Developers can change the order of message handling, by for example implementing a priority queue mailbox, still messages are handled one-by-one, which prevents memory corruption.
+
+It is a rule of thumb in Akka to only send immutable messages, which prevents Actors writing in the same memory. A developer *could* send mutable objects though and through this create race conditions or memory issues, as demonstrated by the below Scala code taken from the Akka [documentation](https://doc.akka.io/docs/akka/current/general/jmm.html):
+
+```Scala
+  var state = ""
+  val mySet = mutable.Set[String]()
+
+  def onMessage(cmd: MyActor.Command) = cmd match {
+    case Message(text, otherActor) =>
+      // Very bad: shared mutable object allows
+      // the other actor to mutate your own state,
+      // or worse, you might get weird race conditions
+      otherActor ! mySet
+
+```
 
 __Q2: According to Akka’s documentation, its message-delivery system guarantees two properties about the delivery of messages. In your own words, explain these properties and their relevance.__
+
+According to Akka's documentation these two properties are:
+
+- at-most-once delivery, i.e. no guaranteed delivery
+- message ordering per sender–receiver pair
+
+*at-most-once delivery* means that an actor will send a message only once and in a 'fire and forget' manner, this means a message might not be delivered. An advantage of this method is that it is the least overhead, which makes for the greatest possible performance in this model. In short, applications that do not need 100% message delivery are not bothered by complicated implementations that try to do this, applications that do need more guarantees need to be build keeping this in mind. (Proper failure propagation, business logic that can handle failures etc.)
+
+*message ordering per sender–receiver pair* means that Akka guarantees message order between a single sender and receiver, however if multiple actors send to one actor messages can arrive in a 'mixed' order. An exception to this rule is failure communication between a parent a child, which goes through a separate system mailbox, as shown in the following example taken from the Akka [documentation](https://doc.akka.io/docs/akka/current/general/message-delivery-reliability.html):
+
+```bash
+Child actor C sends message M to its parent P
+
+Child actor fails with failure F
+
+Parent actor P might receive the two events either in order M, F or F, M
+```
 
 __Q3: In your own words, why does Akka not guarantee the delivery of messages? What are the arguments made to this design decision by the documentation? Mention at least three reasons.__
 
