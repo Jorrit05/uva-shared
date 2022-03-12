@@ -64,12 +64,43 @@ Parent actor P might receive the two events either in order M, F or F, M
 
 __Q3: In your own words, why does Akka not guarantee the delivery of messages? What are the arguments made to this design decision by the documentation? Mention at least three reasons.__
 
+As passingly mentioned above Akka documentation proposes several reasons for not guaranteeing message delivery. First of all it is ambiguous what guaranteed messaging delivery means, does it mean sending the message? making sure the recipient receives it in it's mailbox? That the recipient processes the message? No single messaging system would be able to comply to all of these interpretations. Furthermore it is stated that the only real guarantee that an interaction was successful is by receiving a business logic level acknowledgment from the receiving party, this is not something that distributed programming language wants to guarantee or is easily able to provide. Lastly, as mentioned in question 2, 'fire and forget' messaging reduces overhead and increases performance. Any program written that does not need stronger guarantees also does not suffer from an in-build implementation that provides stronger delivery guarantees. Systems that do need it can build with this in mind.
 
 __Q4: In your own words, what mechanism(s) does Akka provide to handle failures? In your answer, mention the hierarchy formed by Akka actors and different possible responses to an observed failure. Be specific.__
 
+Before going into failure lets have a quick look at how actors are interrelated. When creating an Akka application the 'ActorContext' already creates two actors as per the [docs](https://doc.akka.io/docs/akka/current/typed/guide/tutorial_1.html):
+
+- / the so-called root guardian. This is the parent of all actors in the system, and the last one to stop when the system itself is terminated.
+- /system the system guardian. Akka or other libraries built on top of Akka may create actors in the system namespace.
+
+And also the:
+
+- /user the user guardian. This is the top level actor that you provide to start all other actors in your application.
+
+Every actor spawned now will be descendant from the user guardian. We have established that every actor has a parent en possibly children. Actors usually implement a stop message to stop themselves, if an actor is stopped al its children are stopped recursively, meaning that the farthest descendant will be stopped first and work its way up the tree.
+
+Now this relation is understood its time to look at failures. Failures and exception propagate up to an actors parents, when an actor creates a child it can define a 'supervision strategy' to handle these failures. The default strategy is to stop a child after failure. The three supervision strategies are, according to the [docs](https://doc.akka.io/docs/akka/current/general/supervision.html):
+
+- Resume the actor, keeping its accumulated internal state
+- Restart the actor, clearing out its accumulated internal state, with a potential delay starting again
+- Stop the actor permanently
+
+Finally another tool is 'lifecycle monitoring', in which an actor monitors the 'the transition from alive to dead' from another specified actor, if an actor suddenly terminates the monitoring actor can take appropriate action.
+
 __Q5: A significant difference between a message being processed and a method/function/procedure being called, is that processing a message does not return a value. What does the Akka documentation suggest a programmer do instead? In your answer, refer to at least one of the ‘interaction patterns’ described in the documentation.__
 
+There are several methods to request a reply from another actor. Care needs to be taken when choosing a method for getting a return value since each method has certain advantages and disadvantages.
+
+The simplest ones is a 'request-response' model, where an actor sends a special 'Request' class message to which another actor will send its response. An advantage of this that the actor sending the initial message will keep handling incoming messages, its not blocked.
+
+If an actor needs to have a response before doing anything else the 'Request-Response with ask between two actors' model can be used. In this case the actor sets up a listener for a response and does not do any other work until the response is received or times out. Disadvantage here are that a blocked actor take up resources, do their work slower, and it is difficult to set a proper timeout, the message might come successfully just a little after a timeout.
+
+
 __Q6 Explain an additional interaction pattern and motivate it through an example of your own choosing.__
+
+The 'General purpose response aggregator' is an interesting pattern where a single actor needs to gather info from many other actors and sends back the total (aggregated) response to the requestor. An example that could use this pattern and wel all know is [Google flights.](https://flights.google.com/) In which google flights will check many airlines for flight information and returns all results to the user.
+
+<div style="page-break-after: always;"></div>
 
 
 ## Embedded nature of Akka
