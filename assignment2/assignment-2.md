@@ -21,14 +21,14 @@
 
 __Q1: In your own words, explain how message-passing in Akka avoids the problem of corrupted state, without having to rely on the programmer for avoiding the problem (e.g. by introducing locks to the code). In your answer, make explicit what is meant by the state of an actor and how messages are processed by an actor.__
 
-As stated by the Akka documentation, sending messages has the following two guarantees:
+As stated by the Akka documentation<sup>1</sup>, sending messages has the following two guarantees:
 
 - The actor send rule: the send of the message to an actor happens before the receive of that message by the same actor.
 - The actor subsequent processing rule: processing of one message happens before processing of the next message by the same actor.
 
 An 'actor' in Akka is a newly created separate process (Akka lightweight process, not a full system thread), which defines it's own state and behavior. The only way to communicate with an actor is to send it messages on its message queue, in general messages are handled FIFO (First In First Out). Thus, since each actor has its own state (no shared memory), and messages are handled one by one, state can not be corrupted by concurrent writes to the same memory block. Developers can change the order of message handling, by for example implementing a priority queue mailbox, still messages are handled one-by-one, which prevents memory corruption.
 
-It is a rule of thumb in Akka to only send immutable messages, which prevents Actors writing in the same memory. A developer *could* send mutable objects though and through this create race conditions or memory issues, as demonstrated by the below Scala code taken from the Akka [documentation](https://doc.akka.io/docs/akka/current/general/jmm.html):
+It is a rule of thumb in Akka to only send immutable messages, which prevents Actors writing in the same memory. A developer *could* send mutable objects though and through this create race conditions or memory issues, as demonstrated by the below Scala code taken from the Akka documentation<sup>1<sup>
 
 ```Scala
   var state = ""
@@ -42,6 +42,8 @@ It is a rule of thumb in Akka to only send immutable messages, which prevents Ac
       otherActor ! mySet
 
 ```
+
+1. https://doc.akka.io/docs/akka/current/general/jmm.html
 
 __Q2: According to Akka’s documentation, its message-delivery system guarantees two properties about the delivery of messages. In your own words, explain these properties and their relevance.__
 
@@ -107,6 +109,8 @@ The 'General purpose response aggregator' is an interesting pattern where a sing
 
 
 __Q7:In either Java or Scala, is Akka a compiled or interpreted language? Explain how you concluded this. If interpreted, in what programming language is the interpreter written? If compiled, what is the target language instruction set of the compiler?__
+
+Akka can be used within Java and Scala. Java and Scala both compile to bytecode which is interpreted by the Java Virtual Machine. In this way you could argue that the toolkit Akka can be described as an compiled and interpreted language. Because the JVM is platform dependent it can be written in several languages. The Oracle JVM is written in C/C++ <sup>2</sup>https://docs.oracle.com/javase/specs/jvms/se7/html/
 
 __Q8: In either Java or Scala, is Akka statically or dynamically typed? How did you conclude this?__
 
