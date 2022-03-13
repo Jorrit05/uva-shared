@@ -113,15 +113,30 @@ __Q7:In either Java or Scala, is Akka a compiled or interpreted language? Explai
 Akka can be used within Java and Scala. Java and Scala both compile to bytecode which is interpreted by the Java Virtual Machine. In this way you could argue that the toolkit Akka can be described as an compiled and interpreted language. Because the JVM is platform dependent it can be written in several languages. The Oracle JVM is written in C/C++ <sup>2</sup>https://docs.oracle.com/javase/specs/jvms/se7/html/
 
 __Q8: In either Java or Scala, is Akka statically or dynamically typed? How did you conclude this?__
+Akka embedded in Java is statically typed. Java itself is statically typed because the type of the variable is known at compile time. If an Akka actor receives a message the type of the message is known. 
+Because when you want to interact with an Akka actor you need to send the right message ```ActorRef<T>``` where T stands for type that de actor accepts.
+
 
 __Q9: Describe an application for which you think Akka’s actor-oriented programming is particularly suitable. Argue whether for this application you would prefer to use the Java’s Akka, Scala’s Akka, or Erlang.__
 
 __Q10: How can Akka programs be debugged? Is this simpler or more difficult than in other languages you are familiar with? How so?__
+It is more difficult to debug Akka programs because of their async nature, a line-by-line debugger is therefore hard to do. The business logic can be debugged without using Akka in a more synchronous manner. 
+Logging will be the main way of debugging in Akka programs. When using other languages that are not asynchronous like normal Java it is easy to attach a debugger to the process. 
 
 ## Additional bonus questions
 
 __Q11: The following page contains links to several additional Akka modules that extend the functionality of Akka even further. For one of these modules: explain what it is for by mentioning the kinds of applications that can benefit from using this module. Pick an example application of your own choosing. https://doc.akka.io/docs/akka/current/common/other-modules.html__
 
+Akka HTTP is an extra module which gives the functionality of exposing the Akka application through HTTP or calling own HTTP api's. HTTP is the main way how different systems talks to each other. 
+If you want to integrate an Akka application into a diverse architecture then with this module it is possible. For example it can be implemented as an authorization server. 
+
+An user wants to do an payment and goes to an api gateway. This needs to know if this user is allowed to do that payment. 
+The authorization server get information from the api gateway, and will check in all kinds of sources in parallel if it is allowed. These sources can all be information from other systems that exposes there services in HTTP. 
+
+
 __Q12: Based on your observations, what are the main similarities and differences between Akka and Erlang? You can refer to syntactic, semantic, or pragmatic aspects of the languages. Do the languages differ in terms of the concepts associated with the programming paradigms discussed in this course?__
 
+
 __Q13: Write a concurrency abstraction using Akka actors that implements remote procedure calls. The goal of this abstraction is to make it possible to just execute a function/method that does the communication for us and waits for a response which it returns as the result of the call. You can use either Scala or Java or pseudo-code resembling Scala or Java.__
+
+https://github.com/akka/akka/blob/v2.6.18/akka-actor-typed-tests/src/test/java/jdocs/akka/typed/IntroTest.java#L191-L195
