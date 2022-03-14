@@ -1,8 +1,8 @@
-# Writiing assignment 2, AKKA
+# Writing assignment 2, AKKA
 
 |   |   |
 |---|---|
-| Authors:| Rein Spanjer,Bob Schijf,  Jorrit Stutterheim |
+| Authors:| Rein Spanjer, Bob Schijf,  Jorrit Stutterheim |
 | Group number:| 10 |
 | Student ID Jorrit Stutterheim |  13957899 |
 | Student ID Rein Spanjer | 13558307 |
@@ -15,7 +15,8 @@
 
 [1. Akka’s actor model](#akkas-actor-model) </br>
 [2. Embedded nature of Akka](#embedded-nature-of-akka) </br>
-[3 Additional bonus questions](#additional-bonus-questions) </br>
+[3. Additional bonus questions](#additional-bonus-questions) </br>
+[4. References](#references) </br>
 
 ## Akka’s actor model
 
@@ -98,50 +99,62 @@ If an actor needs to have a response before doing anything else the 'Request-Res
 
 __Q6 Explain an additional interaction pattern and motivate it through an example of your own choosing.__
 
-The 'General purpose response aggregator' is an interesting pattern where a single actor needs to gather info from many other actors and sends back the total (aggregated) response to the requestor. An example that could use this pattern and wel all know is [Google flights.](https://flights.google.com/) In which google flights will check many airlines for flight information and returns all results to the user.
+The 'General purpose response aggregator' is an interesting pattern where a single actor needs to gather info from many other actors and sends back the total (aggregated) response to the requestor. An example that could use this pattern and we all know is [Google flights.](https://flights.google.com/) In which google flights will check many airlines for flight information and returns all results to the user.
 
 <div style="page-break-after: always;"></div>
 
-
 ## Embedded nature of Akka
-
 
 __Q7:In either Java or Scala, is Akka a compiled or interpreted language? Explain how you concluded this. If interpreted, in what programming language is the interpreter written? If compiled, what is the target language instruction set of the compiler?__
 
 Akka can be used within Java and Scala. Java and Scala both compile to bytecode which is interpreted by the Java Virtual Machine. In this way you could argue that the toolkit Akka can be described as an compiled and interpreted language. Because the JVM is platform dependent it can be written in several languages. The Oracle JVM is written in C/C++<sup>5</sup>.
 
 __Q8: In either Java or Scala, is Akka statically or dynamically typed? How did you conclude this?__
-Akka embedded in Java is statically typed. Java itself is statically typed because the type of the variable is known at compile time. If an Akka actor receives a message the type of the message is known. 
+
+Akka embedded in Java is statically typed. Java itself is statically typed because the type of the variable is known at compile time. If an Akka actor receives a message the type of the message is known.
 Because when you want to interact with an Akka actor you need to send the right message ```ActorRef<T>``` where T stands for type that de actor accepts.
 
-
 __Q9: Describe an application for which you think Akka’s actor-oriented programming is particularly suitable. Argue whether for this application you would prefer to use the Java’s Akka, Scala’s Akka, or Erlang.__
-The actor-oriented programming that Akka is using would be suitable for bank transactions. This style works great when multiple transactions have to be done with the same bank account. Because of the actors, transactions can be added whenever you want to a queue. And the transactions will be done sequentially, one at a time. The actor will then let the actor that initiated this transaction know that the transaction is done.
 
-Java's Akka would be best to use in this situation because Java has better networking features than Scala. This can now be combined with the actor-oriented Akka, that could lead to a great banking system. Akka makes it much eassier to know which transaction is done first. Therefore it is easier to use for these kind of applications than Erlang.
+An actor-oriented programming language like Akka is best use for for applications that need to flexibly scale and perform. A good real world example would be money transactions. Banks usually need to handle millions of transactions a day, using the actor model will mean this can be done while keeping the performance high and running many transactions concurrently.
+
+There are several factors that come in when choosing a specific language like:
+
+- A programmers skill-set
+- Market for a specific skill-set (as in, can I hire programmers with the required skill-set)
+- Current IT eco-system
+
+Within our group there already was some disagreement on choosing one of the three, some prefer a more functional approach so would opt for Erlang, others have more experience with OO and would go for Java or Scala.
 
 __Q10: How can Akka programs be debugged? Is this simpler or more difficult than in other languages you are familiar with? How so?__
-It is more difficult to debug Akka programs because of their async nature, a line-by-line debugger is therefore hard to do. The business logic can be debugged without using Akka in a more synchronous manner. 
-Logging will be the main way of debugging in Akka programs. When using other languages that are not asynchronous like normal Java it is easy to attach a debugger to the process. 
+
+It is more difficult to debug Akka programs because of their async nature, a line-by-line debugger is therefore hard to do. The business logic can be debugged without using Akka in a more synchronous manner.
+Logging will be the main way of debugging in Akka programs. When using other languages that are not asynchronous like normal Java it is easy to attach a debugger to the process.
+
+<div style="page-break-after: always;"></div>
 
 ## Additional bonus questions
 
 __Q11: The following page contains links to several additional Akka modules that extend the functionality of Akka even further. For one of these modules: explain what it is for by mentioning the kinds of applications that can benefit from using this module. Pick an example application of your own choosing. https://doc.akka.io/docs/akka/current/common/other-modules.html__
 
-Akka HTTP is an extra module which gives the functionality of exposing the Akka application through HTTP or calling own HTTP api's. HTTP is the main way how different systems talks to each other. 
-If you want to integrate an Akka application into a diverse architecture then with this module it is possible. For example it can be implemented as an authorization server. 
+Akka HTTP is an extra module which gives the functionality of exposing the Akka application through HTTP or calling own HTTP api's. HTTP is the main way how different systems talks to each other.
+If you want to integrate an Akka application into a diverse architecture then with this module it is possible. For example it can be implemented as an authorization server.
 
-An user wants to do an payment and goes to an api gateway. This needs to know if this user is allowed to do that payment. 
-The authorization server get information from the api gateway and will check in all kinds of sources in parallel if it is allowed. These sources can all be information from other systems that exposes there services in HTTP. Performance is really important in this setup because authorizations will be done for all api traffic. Akka can help here by doing the checks in parallel. 
+A user wants to do an payment and goes to an api gateway. This needs to know if this user is allowed to do that payment.
+The authorization server get information from the api gateway and will check in all kinds of sources in parallel if it is allowed. These sources can all be information from other systems that exposes there services in HTTP. Performance is really important in this setup because authorizations will be done for all api traffic. Akka can help here by doing the checks in parallel.
 
 __Q12: Based on your observations, what are the main similarities and differences between Akka and Erlang? You can refer to syntactic, semantic, or pragmatic aspects of the languages. Do the languages differ in terms of the concepts associated with the programming paradigms discussed in this course?__
-One of the pragmatic differences is that Akka integrates with the Java ecosystem where Erlang uses OTP. They can both access libraries made for their languague. They both have hot code reload but Erlang can do this much better than Akka because of the lack of flexability in the JVM class reloading. Both are semnatically strong typed. They differ a lot syntactically. Erlang has a more compact way of programming things than Java. Erlang can use anonymous functions which can be very usefull and helps to keep te code compact. Java cannot do this.
+
+From a programming paradigm perspective the main difference is that Erlang is a mostly functional language and does not support classes and a 'object orientated' approach of programming. Akka supports both object orientated programming and functional programming both in Scala and Java, although it is good to note that generally speaking the object orientated approach is more natural in Java and functional programming is slightly better supported in Scala.
+
+One of the pragmatic differences is that Akka integrates with the Java ecosystem where Erlang needs OTP installed. Both have some form of hot code swapping but Erlang can do this much better than Akka because of the lack of flexibility in the JVM class reloading. Both are semantically strongly typed. They differ a lot syntactically. Erlang has a more compact way of programming where Java is very verbose due to it's object orientated approach.
 
 __Q13: Write a concurrency abstraction using Akka actors that implements remote procedure calls. The goal of this abstraction is to make it possible to just execute a function/method that does the communication for us and waits for a response which it returns as the result of the call. You can use either Scala or Java or pseudo-code resembling Scala or Java.__
 
-The Communicator and the Listener are actors that responds to each other. If the exchange has reached 100 times the Communicator stops with the messaging. 
+The Communicator and the Listener are actors that responds to each other. If the exchange has reached 100 times the Communicator stops with the messaging.
 The Initiator will first start the Actors and sends the first message to start the communication.
-```java
+
+```JAVA
 public class Communicator extends AbstractBehavior<Communicator.Hello> {
 
     public static class Hello {
@@ -177,7 +190,7 @@ public class Communicator extends AbstractBehavior<Communicator.Hello> {
         } else {
             listener.tell(new Listener.Request(command.times + 1, getContext().getSelf()));
         }
-        
+
 
         return this;
     }
@@ -202,7 +215,7 @@ public class Listener extends AbstractBehavior<Listener.Request> {
     public static class Request {
         public final int times;
         public final ActorRef<Communicator.Hello> replyTo;
-      
+
         public Request(int times, ActorRef<Communicator.Hello> replyTo) {
           this.times = times;
           this.replyTo = replyTo;
