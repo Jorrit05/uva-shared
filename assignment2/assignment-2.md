@@ -31,6 +31,8 @@ An 'actor' in Akka is a newly created separate process (Akka lightweight process
 
 It is a rule of thumb in Akka to only send immutable messages, which prevents Actors writing in the same memory. A developer *could* send mutable objects though and through this create race conditions or memory issues, as demonstrated by the below Scala code taken from the Akka documentation<sup>1</sup>
 
+<div style="page-break-after: always;"></div>
+
 ```Scala
   var state = ""
   val mySet = mutable.Set[String]()
@@ -99,20 +101,19 @@ If an actor needs to have a response before doing anything else the 'Request-Res
 
 __Q6 Explain an additional interaction pattern and motivate it through an example of your own choosing.__
 
-The 'General purpose response aggregator' is an interesting pattern where a single actor needs to gather info from many other actors and sends back the total (aggregated) response to the requestor. An example that could use this pattern and we all know is [Google flights.](https://flights.google.com/) In which google flights will check many airlines for flight information and returns all results to the user.
+The 'General purpose response aggregator' is an interesting pattern where a single actor needs to gather info from many other actors and sends back the total (aggregated) response to the requestor. An example that could use this pattern and wel all know is Google flights<sup>5</sup>. In which google flights will check many airlines for flight information and returns all results to the user.
 
-<div style="page-break-after: always;"></div>
 
 ## Embedded nature of Akka
 
 __Q7:In either Java or Scala, is Akka a compiled or interpreted language? Explain how you concluded this. If interpreted, in what programming language is the interpreter written? If compiled, what is the target language instruction set of the compiler?__
 
-Akka can be used within Java and Scala. Java and Scala both compile to bytecode which is interpreted by the Java Virtual Machine. In this way you could argue that the toolkit Akka can be described as an compiled and interpreted language. Because the JVM is platform dependent it can be written in several languages. The Oracle JVM is written in C/C++<sup>5</sup>.
+Akka can be used within Java and Scala. Java and Scala both compile to bytecode which is interpreted by the Java Virtual Machine. In this way you could argue that the toolkit Akka can be described as an compiled and interpreted language. Because the JVM is platform dependent it can be written in several languages. The Oracle JVM is written in C/C++<sup>6</sup>.
 
 __Q8: In either Java or Scala, is Akka statically or dynamically typed? How did you conclude this?__
 
-Akka embedded in Java is statically typed. Java itself is statically typed because the type of the variable is known at compile time. If an Akka actor receives a message the type of the message is known.
-Because when you want to interact with an Akka actor you need to send the right message ```ActorRef<T>``` where T stands for type that de actor accepts.
+Akka embedded in Java is statically typed. Java itself is statically typed because the type of an object is known at compile time. Also when designing Akka actors you would have to think about the messages that will be send.
+If an Akka actor receives a message the type of the message is known. Because when you want to interact with an Akka actor you need to send the right message, for example ```ActorRef<T>``` where T stands for type that de actor accepts. 
 
 __Q9: Describe an application for which you think Akka’s actor-oriented programming is particularly suitable. Argue whether for this application you would prefer to use the Java’s Akka, Scala’s Akka, or Erlang.__
 
@@ -129,9 +130,10 @@ Within our group there already was some disagreement on choosing one of the thre
 __Q10: How can Akka programs be debugged? Is this simpler or more difficult than in other languages you are familiar with? How so?__
 
 It is more difficult to debug Akka programs because of their async nature, a line-by-line debugger is therefore hard to do. The business logic can be debugged without using Akka in a more synchronous manner.
-Logging will be the main way of debugging in Akka programs. When using other languages that are not asynchronous like normal Java it is easy to attach a debugger to the process.
+Logging will be the main way of debugging in Akka programs. When using other languages that are not asynchronous like normal Java it is easy to attach a debugger to the process and see the line by line transformation. 
 
 <div style="page-break-after: always;"></div>
+
 
 ## Additional bonus questions
 
@@ -154,7 +156,9 @@ __Q13: Write a concurrency abstraction using Akka actors that implements remote 
 The Communicator and the Listener are actors that responds to each other. If the exchange has reached 100 times the Communicator stops with the messaging.
 The Initiator will first start the Actors and sends the first message to start the communication.
 
-```JAVA
+<div style="page-break-after: always;"></div>
+
+```java
 public class Communicator extends AbstractBehavior<Communicator.Hello> {
 
     public static class Hello {
@@ -186,7 +190,7 @@ public class Communicator extends AbstractBehavior<Communicator.Hello> {
 
         System.out.println("I have reveived [" + command.times + "] hello's" );
         if (command.times > 100){
-            System.out.println("Ok ok, I will stop!" );
+            System.out.println("Ok, I will stop!" );
         } else {
             listener.tell(new Listener.Request(command.times + 1, getContext().getSelf()));
         }
@@ -196,6 +200,8 @@ public class Communicator extends AbstractBehavior<Communicator.Hello> {
     }
 }
 ```
+
+<div style="page-break-after: always;"></div>
 
 ```java
 import akka.actor.typed.ActorSystem;
@@ -243,6 +249,7 @@ public class Listener extends AbstractBehavior<Listener.Request> {
 }
 ```
 
+<div style="page-break-after: always;"></div>
 
 ## References
 
@@ -250,4 +257,5 @@ public class Listener extends AbstractBehavior<Listener.Request> {
 2. https://doc.akka.io/docs/akka/current/general/message-delivery-reliability.html
 3. https://doc.akka.io/docs/akka/current/typed/guide/tutorial_1.html
 4. https://doc.akka.io/docs/akka/current/general/supervision.html
-5. https://docs.oracle.com/javase/specs/jvms/se7/html/
+5. https://flights.google.com/
+6. https://docs.oracle.com/javase/specs/jvms/se7/html/
