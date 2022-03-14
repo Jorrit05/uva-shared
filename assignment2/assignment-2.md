@@ -139,7 +139,96 @@ One of the pragmatic differences is that Akka integrates with the Java ecosystem
 
 __Q13: Write a concurrency abstraction using Akka actors that implements remote procedure calls. The goal of this abstraction is to make it possible to just execute a function/method that does the communication for us and waits for a response which it returns as the result of the call. You can use either Scala or Java or pseudo-code resembling Scala or Java.__
 
-https://github.com/akka/akka/blob/v2.6.18/akka-actor-typed-tests/src/test/java/jdocs/akka/typed/IntroTest.java#L191-L195
+The Communicator and the Listener are actors that responds to each other. If the exchange has reached 100 times the Communicator stops with the messaging. 
+The Initiator will first start the Actors and sends the first message to start the communication.
+```java
+public class Communicator extends AbstractBehavior<Communicator.Hello> {
+
+    public static class Hello {
+        public final int times;
+
+        public Hello(int times) {
+            this.times = times;
+        }
+    }
+
+
+    public static Behavior<Hello> create() {
+        return Behaviors.setup(Communicator::new);
+    }
+
+    private final ActorRef<Listener.Request> listener;
+
+    private Communicator(ActorContext<Hello> context) {
+        super(context);
+        listener = context.spawn(Listener.create(), "listener");
+    }
+
+    @Override
+    public Receive<Hello> createReceive() {
+        return newReceiveBuilder().onMessage(Hello.class, this::onSayHello).build();
+    }
+
+    private Behavior<Hello> onSayHello(Hello command) {
+
+        System.out.println("I have reveived [" + command.times + "] hello's" );
+        if (command.times > 100){
+            System.out.println("Ok ok, I will stop!" );
+        } else {
+            listener.tell(new Listener.Request(command.times + 1, getContext().getSelf()));
+        }
+        
+
+        return this;
+    }
+}
+```
+
+```java
+import akka.actor.typed.ActorSystem;
+
+public class Initiator {
+  public static void main(String[] args) {
+
+    final ActorSystem<Communicator.Hello> communicator = ActorSystem.create(Communicator.create(), "somestring");
+    communicator.tell(new Communicator.Hello(0));
+  }
+}
+```
+
+```java
+public class Listener extends AbstractBehavior<Listener.Request> {
+
+    public static class Request {
+        public final int times;
+        public final ActorRef<Communicator.Hello> replyTo;
+      
+        public Request(int times, ActorRef<Communicator.Hello> replyTo) {
+          this.times = times;
+          this.replyTo = replyTo;
+        }
+      }
+
+    public static Behavior<Request> create() {
+        return Behaviors.setup(Listener::new);
+    }
+
+    private Listener(ActorContext<Request> context) {
+        super(context);
+    }
+
+    @Override
+    public Receive<Request> createReceive() {
+        return newReceiveBuilder().onMessage(Request.class, this::onRequest).build();
+    }
+
+    private Behavior<Request> onRequest(Request request) {
+        System.out.println("I am listening [" + request.times + "] times");
+        request.replyTo.tell(new Communicator.Hello(request.times));
+        return this;
+    }
+}
+```
 
 
 ## References
