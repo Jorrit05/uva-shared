@@ -6,7 +6,7 @@
 | Group number:| 10 |
 | Student ID Jorrit Stutterheim |  13957899 |
 | Student ID Rein Spanjer | 13558307 |
-| Student ID Bob Schijf: | 14076357 |
+| Student ID Bob Schijf | 14076357 |
 | Study: | Premaster software engineering |
 | Course: | Programmeertalen |
 
@@ -103,6 +103,7 @@ __Q6 Explain an additional interaction pattern and motivate it through an exampl
 
 The 'General purpose response aggregator' is an interesting pattern where a single actor needs to gather info from many other actors and sends back the total (aggregated) response to the requestor. An example that could use this pattern and wel all know is Google flights<sup>5</sup>. In which google flights will check many airlines for flight information and returns all results to the user.
 
+<div style="page-break-after: always;"></div>
 
 ## Embedded nature of Akka
 
