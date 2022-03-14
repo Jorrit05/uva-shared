@@ -2,11 +2,11 @@
 
 |   |   |
 |---|---|
-| Authors:| Rein Spanjer,Bob,  Jorrit Stutterheim |
+| Authors:| Rein Spanjer,Bob Schijf,  Jorrit Stutterheim |
 | Group number:| 10 |
 | Student ID Jorrit Stutterheim |  13957899 |
 | Student ID Rein Spanjer | 13558307 |
-| Student ID Bob: | 14076357 |
+| Student ID Bob Schijf: | 14076357 |
 | Study: | Premaster software engineering |
 | Course: | Programmeertalen |
 
@@ -116,6 +116,9 @@ Because when you want to interact with an Akka actor you need to send the right 
 
 
 __Q9: Describe an application for which you think Akka’s actor-oriented programming is particularly suitable. Argue whether for this application you would prefer to use the Java’s Akka, Scala’s Akka, or Erlang.__
+The actor-oriented programming that Akka is using would be suitable for bank transactions. This style works great when multiple transactions have to be done with the same bank account. Because of the actors, transactions can be added whenever you want to a queue. And the transactions will be done sequentially, one at a time. The actor will then let the actor that initiated this transaction know that the transaction is done.
+
+Java's Akka would be best to use in this situation because Java has better networking features than Scala. This can now be combined with the actor-oriented Akka, that could lead to a great banking system. Akka makes it much eassier to know which transaction is done first. Therefore it is easier to use for these kind of applications than Erlang.
 
 __Q10: How can Akka programs be debugged? Is this simpler or more difficult than in other languages you are familiar with? How so?__
 It is more difficult to debug Akka programs because of their async nature, a line-by-line debugger is therefore hard to do. The business logic can be debugged without using Akka in a more synchronous manner. 
@@ -132,7 +135,7 @@ An user wants to do an payment and goes to an api gateway. This needs to know if
 The authorization server get information from the api gateway and will check in all kinds of sources in parallel if it is allowed. These sources can all be information from other systems that exposes there services in HTTP. Performance is really important in this setup because authorizations will be done for all api traffic. Akka can help here by doing the checks in parallel. 
 
 __Q12: Based on your observations, what are the main similarities and differences between Akka and Erlang? You can refer to syntactic, semantic, or pragmatic aspects of the languages. Do the languages differ in terms of the concepts associated with the programming paradigms discussed in this course?__
-
+One of the pragmatic differences is that Akka integrates with the Java ecosystem where Erlang uses OTP. They can both access libraries made for their languague. They both have hot code reload but Erlang can do this much better than Akka because of the lack of flexability in the JVM class reloading. Both are semnatically strong typed. They differ a lot syntactically. Erlang has a more compact way of programming things than Java. Erlang can use anonymous functions which can be very usefull and helps to keep te code compact. Java cannot do this.
 
 __Q13: Write a concurrency abstraction using Akka actors that implements remote procedure calls. The goal of this abstraction is to make it possible to just execute a function/method that does the communication for us and waits for a response which it returns as the result of the call. You can use either Scala or Java or pseudo-code resembling Scala or Java.__
 
