@@ -107,6 +107,8 @@ Java does not support multiple inheritance.<sup>1</sup> However, a class can imp
 
 Classes can then implement these interfaces and have to make a custom implementation for the functions of the interface, example<sup>1</sup>:
 
+Another that Java could support multiple inheritance is by nesting classes, see question 11.
+
 ```JAVA
 public interface Hockey extends Sports, Event
 
@@ -168,7 +170,6 @@ public class Demo {
 }
 ```
 
-Another way of using multiple inheritance is by nesting classes, see next question.
 
 __Q11 In Java it is possible to define classes within classes (i.e. to nest class definitions). Such classes are referred to as inner classes. What kinds of inner classes exist? Explain why inner classes can be useful__
 
@@ -197,7 +198,69 @@ A few reason to use nested classes:
 
 __Q12  In your own words, explain the overloading concept in Java.__
 
+*Function overloading*
+This is easily achieved in Java. Methods from the same class with the same name can accept a different number of arguments. As in the following example:
+
+```JAVA
+// Source: https://www.tutorialspoint.com/what-is-overloading-in-java
+public class Sample{
+   public static void add(int a, int b){
+      System.out.println(a+b);
+   }
+   public static void add(int a, int b, int c){
+      System.out.println(a+b+c);
+   }
+   public static void main(String args[]){
+      Sample obj = new Sample();
+      obj.add(20, 40); // prints 60
+      obj.add(40, 50, 60); // prints 150
+   }
+}
+```
+
+*operator overloading*
+User defined operator overloading is not supported in Java. Some OO counterparts like C++, Python and Kotlin do support this feature.
+
 __Q13  In your own words, explain the overriding concept in Java. How does it relate to the final keyword?__
+
+In Java inheritance is used a lot, so as a subclass (inherited class) it is possible to use methods from the parent class. But it is often required to slightly adjust the parents' method, for example a to_string method would usually need to be implemented differently. Re-implementing a parents function is called overriding. Overriding is not allowed when the 'final' keyword is present in the parents class. See below example:
+
+```JAVA
+class Boat {
+    public void sink() {
+      System.out.println("MAYDAY MAYDAY");
+   }
+
+   final public void sos() {
+      System.out.println("Sending SOS signal");
+   }
+}
+
+class Submarine extends Boat {
+   public void sink() {
+      System.out.println("Setting heading in a downward angle.");
+   }
+
+   // Gives compilation error since parent method is final
+  public void sos() {
+      System.out.println("We are a submarine, we don't send SOS");
+  }
+}
+
+public class TestBoats {
+
+   public static void main(String args[]) {
+      Boat a = new Boat();   // Boat reference and Boat object
+
+      Boat b = new Submarine();   // Boat reference but Submarine object
+      a.sink();   // Prints MAYDAY, MAYDAY
+
+      b.sink();   // runs the method in Submarine class
+   }
+}
+```
+
+Additionally it is best practice to add the '@Override' annotator when overriding a method. If the override is done incorrectly the compiler will crash on it and it approves readability for other developers.
 
 ## Additional bonus questions
 
