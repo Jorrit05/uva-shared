@@ -22,9 +22,61 @@
 
 __Q1 For every primitive type there is a reference type counterpart. Name at least 3 primitive types and their reference type counterpart.__
 
+| primitive |  Reference |
+|---|---|
+| boolean  | java.lang.Boolean  |
+| int  | java.lang.Integer  | 
+|  long |  java.lang.Long | 
+
 __Q2 The boxing conversion converts the value of a primitive type to an object of the corresponding reference type. Give a code example on which the Java compiler performs this conversion automatically and explain why this conversion is helpful to the programmer in this example.__
 
+```java
+Boolean bool = true;
+```
+
+The reference types contains more then only the value. It contains functions that can be used like ```equals```.
+
+```java
+boolean boolFalse = false;
+Boolean boolTrue = true;
+
+boolTrue.equals(boolFalse); // Will return false
+```
+
+```boolFalse.equals``` is not possible because it is a primitive type and it doesn't contain the function ```equals```.
+
+
+It is also helpful because it is less verbose. If this is not possible
+```java
+Boolean bool = true;
+```
+
+you would have to write it like this:
+```java
+Boolean bool = Boolean.TRUE;
+```
+
+and when using other objects.
+
+```java
+boolean boolFalse = false;
+Boolean bool = boolFalse;
+```
+you dont have to do it like the following:
+
+```java
+boolean boolFalse = false;
+Boolean bool = (Boolean) boolFalse;
+```
+
 __Q3 Given that primitive types have a reference type counterpart, one might argue that the primitive types are redundant. Provide at least one argument motivating the existence of primitive types in Java and at least one argument against their existence.__
+
+Primitives are way more performant. Because primitives aren't objects and when they are used a lot then it can save a lot of memory and performance. 
+
+```java
+true == true;
+Boolean.TRUE.equals(Boolean.FALSE);
+```
 
 __Q4 Which parameter-passing strategy does Java apply? Explain your answer.__
 
