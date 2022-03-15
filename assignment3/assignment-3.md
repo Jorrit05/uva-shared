@@ -78,7 +78,13 @@ true == true; //this is faster
 Boolean.TRUE.equals(Boolean.FALSE); //this is slower
 ```
 
+The reference types can be useful when null values can occur. Null values are possible with references but are not with primitives.
+
 __Q4 Which parameter-passing strategy does Java apply? Explain your answer.__
+
+Java has an pass-by-value strategy. When a function is called with its parameters, the values will be copies and stored in stack memory of the function. The behavior is different when using primitive types and reference types. Primitives types hold the actual value and this value will be copied over. So changes that are made in the function will not transfer outside. 
+
+When using reference types you will actually be passing the pointer to this object to the function. The pointer will be copied to the stack memory. It will point to the same object. So changes made to this object will retain outside of the function.
 
 __Q5 What is the difference between the following two valid Java expressions in which s1 and s2 are both of type String.__
 
