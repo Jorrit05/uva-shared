@@ -25,8 +25,8 @@ __Q1 For every primitive type there is a reference type counterpart. Name at lea
 | primitive |  Reference |
 |---|---|
 | boolean  | java.lang.Boolean  |
-| int  | java.lang.Integer  | 
-|  long |  java.lang.Long | 
+| int  | java.lang.Integer  |
+|  long |  java.lang.Long |
 
 __Q2 The boxing conversion converts the value of a primitive type to an object of the corresponding reference type. Give a code example on which the Java compiler performs this conversion automatically and explain why this conversion is helpful to the programmer in this example.__
 
@@ -71,7 +71,7 @@ Boolean bool = (Boolean) boolFalse;
 
 __Q3 Given that primitive types have a reference type counterpart, one might argue that the primitive types are redundant. Provide at least one argument motivating the existence of primitive types in Java and at least one argument against their existence.__
 
-Primitives are way more performant. Because primitives aren't objects and when they are used a lot then it can save a lot of memory and performance. 
+Primitives are way more performant. Because primitives aren't objects and when they are used a lot then it can save a lot of memory and performance.
 
 ```java
 true == true; //this is faster
@@ -82,7 +82,7 @@ The reference types can be useful when null values can occur. Null values are po
 
 __Q4 Which parameter-passing strategy does Java apply? Explain your answer.__
 
-Java has an pass-by-value strategy. When a function is called with its parameters, the values will be copies and stored in stack memory of the function. The behavior is different when using primitive types and reference types. Primitives types hold the actual value and this value will be copied over. So changes that are made in the function will not transfer outside. 
+Java has an pass-by-value strategy. When a function is called with its parameters, the values will be copies and stored in stack memory of the function. The behavior is different when using primitive types and reference types. Primitives types hold the actual value and this value will be copied over. So changes that are made in the function will not transfer outside.
 
 When using reference types you will actually be passing the pointer to this object to the function. The pointer will be copied to the stack memory. It will point to the same object. So changes made to this object will retain outside of the function.
 
@@ -144,10 +144,56 @@ __Q10  What is the difference between a method declared with the static keyword 
 
 A static method (or member variable) is class method that is the same in every instantiation of the class. Thus, a static method can only interact with static members of the class.
 
-An advantages of a static method is that it is bound during compilation, and can be optimized during compilation, so it is more efficient and uses less memory. A danger is here that if a static member variable is changed in one object, it will be changed in all existing objects of this class, which is fine as long is that is intended behavior.
+An advantages of a static method is that it is bound, and can be optimized, during compilation, so it is more efficient and uses less memory (pragmatic difference). A danger is here that if a static member variable is changed in one object, it will be changed in all existing (and future) objects of this class, which is fine as long is that is intended behavior (semantic difference). The only syntactical difference is the use of the 'static' keyword.
 
+In a small example:
+
+```JAVA
+class Animal {
+  public static int nrOfSpots = 0;
+  public static void showSpots() {
+    System.out.println(nrOfSpots);
+  }
+}
+public class Demo {
+    public static void main(String args[]) {
+        Animal pig = new Animal();
+        pig.showSpots(); // Prints 0
+
+        pig.nrOfSpots = 10;
+
+        Animal human = new Animal();
+        human.showSpots(); // Prints 10!!
+    }
+}
+```
+
+Another way of using multiple inheritance is by nesting classes, see next question.
 
 __Q11 In Java it is possible to define classes within classes (i.e. to nest class definitions). Such classes are referred to as inner classes. What kinds of inner classes exist? Explain why inner classes can be useful__
+
+*Non-static Nested Classes:*
+Inner classes are a security/encapsulation mechanism in Java. In Java a class cannot be associated with the access modifier private, but if we have the class as a member of other class, then the inner class can be made private. This class can also be used to access the private members of a class. Inner classes are of three types depending on how and where you define them. They are:<sup>2</sup>
+
+- Inner Class: can be made private and can access member variables of its parent class.
+- Method-local Inner Class: you can even make an entire class within a class method.
+- Anonymous Inner Class: similar to a lambda function in functional programming languages you can directly implement a class without a definition using the following syntax<sup>2</sup>:
+```JAVA
+// From within a existing class
+AnonymousInner inner = new AnonymousInner() {
+   public void mymethod() {
+            System.out.println("This is an example of anonymous inner class");
+         }
+}
+```
+*Static Nested Classes:*
+A static inner class is like the above a nested class with the 'static' keyword. Being static it has the property that it can be used without instantiating its parent class. Of course it can only use its parents static member variables and methods.
+
+A few reason to use nested classes:
+
+- Increases encapsulation, if your parent class needs to do something 'difficult' it can use a nested class which only exposes certain things to the outside world. In this sense it is kinda of an interface to other developers and the inside implementation can be easily changed.
+- It is a way of grouping related code. In Java you can only have one public class per file, so nesting classes can save a lot of new Java files, which makes sense if functionality is very intertwined.
+- In this way you could actually make multiple inheritance work.
 
 __Q12  In your own words, explain the overloading concept in Java.__
 
@@ -163,4 +209,5 @@ __Q16  Enum declarations simplify working with types of enumerable values. Enum 
 
 ## References
 
-1 https://www.tutorialspoint.com/java-and-multiple-inheritance
+1. https://www.tutorialspoint.com/java-and-multiple-inheritance
+2. https://www.tutorialspoint.com/java/java_innerclasses.htm
