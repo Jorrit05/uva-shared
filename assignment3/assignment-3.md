@@ -74,8 +74,8 @@ __Q3 Given that primitive types have a reference type counterpart, one might arg
 Primitives are way more performant. Because primitives aren't objects and when they are used a lot then it can save a lot of memory and performance. 
 
 ```java
-true == true;
-Boolean.TRUE.equals(Boolean.FALSE);
+true == true; //this is faster
+Boolean.TRUE.equals(Boolean.FALSE); //this is slower
 ```
 
 __Q4 Which parameter-passing strategy does Java apply? Explain your answer.__
