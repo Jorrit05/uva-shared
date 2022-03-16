@@ -78,7 +78,8 @@ true == true; //this is faster
 Boolean.TRUE.equals(Boolean.FALSE); //this is slower
 ```
 
-The reference types can be useful when null values can occur. Null values are possible with references but are not with primitives.
+The reference types can be useful when null values can occur. Null values are possible with references but are not with primitives. Because NULL values are often a thing in Java you could argue against the usage of 
+primitives.
 
 __Q4 Which parameter-passing strategy does Java apply? Explain your answer.__
 
@@ -93,11 +94,69 @@ s1 == s2
 s1.equals(s2)
 ```
 
+When using "==" operator it will compare the reference of the object itself. So when you have two strings objects with the same value but different reference the == will result into False. 
+The .equals() is a method from the class String. This method will compare the value of the String object with the value of another String object. So the data that resides within the object. 
+This is most often the method that you want to use for comparing Strings. 
+
 __Q6 In your own words, explain the difference between == and .equals() for all types.__
+
+For all reference type object it works as I have described in Q5. For primitives there is no equals() method because no methods exist on primitives.
+
+The equals method is from the class Object. All classes extends the Object class. So they will all have this function. The equals function can be overridden for classes that need a different equals method implementation.
 
 __Q7 Reflect on the previous questions and discuss for each whether it is about syntactic, semantic or pragmatic aspects of the language.__
 
+| Question | Aspect | The question is about |
+|---|---|--|
+| 1  | Syntax | How the syntax of primitives and references are |
+| 2  | Pragmatic  | The compiler automatically converts types and how this works  |
+| 3 | Semantic | Why do primitives exists? What does the code mean|
+| 4 |  Semantic | What does it mean when you are passing a paramater to a function |
+| 5 |  Pragmatic | What happens when you the '==' operator or the equals method |
+| 6 |  Pragmatic | What happens when you the '==' operator or the equals method |
+
 __Q8 In your own words, explain the concept of definite assignment. Why is it useful and why is it not perfect? Make a comparison with C and/or C++. How does definite assignment relate to the final keyword?__
+When for example you are branching in Java and are declaring a variable in both. like so:
+```Java
+int a = 10;
+if (a > 10){
+   int k = 6;
+} else {
+   int k = 4;
+}
+k = 10;
+```
+
+k in this case will throw a compiler error. Because it is not sure whether k is initialized. It will not go to all the branches to check. 
+We as humans can immediately see that k will definitely be defined. But the compiler will not go to all the branches and see. 
+To fix this we can do the following:
+```Java
+int a = 10;
+int k;
+if (a > 10){
+   k = 6;
+} else {
+   k = 4;
+}
+k = 10;
+```
+Now the compiler is happy and will compile the program. In C it is also not possible to do the following
+```C
+int a =  5;
+
+if (a == 5){
+   int k = 10;
+}
+else {
+   int k = 12;
+}
+k = 10;
+```
+
+It works similar as in Java as they are bot static typed languages.
+
+Definite assignment assures the compiler that a variable is defined when it is assigned. When ```final``` is used you tell the compiler that assigning a final variable is definitely not assigned before. 
+So it is more restrictive then only definite assignment. You could call it single definite assignment. 
 
 ## Classes and inheritance
 
