@@ -1,14 +1,14 @@
 # Writing assignment 3, Java
 
-|   |   |
-|---|---|
-| Authors:| Rein Spanjer, Bob Schijf,  Jorrit Stutterheim |
-| Group number:| 10 |
-| Student ID Jorrit Stutterheim |  13957899 |
-| Student ID Rein Spanjer | 13558307 |
-| Student ID Bob Schijf | 14076357 |
-| Study: | Premaster software engineering |
-| Course: | Programmeertalen |
+|                               |                                               |
+| ----------------------------- | --------------------------------------------- |
+| Authors:                      | Rein Spanjer, Bob Schijf,  Jorrit Stutterheim |
+| Group number:                 | 10                                            |
+| Student ID Jorrit Stutterheim | 13957899                                      |
+| Student ID Rein Spanjer       | 13558307                                      |
+| Student ID Bob Schijf         | 14076357                                      |
+| Study:                        | Premaster software engineering                |
+| Course:                       | Programmeertalen                              |
 
 
 ## Table of Contents
@@ -22,11 +22,11 @@
 
 __Q1 For every primitive type there is a reference type counterpart. Name at least 3 primitive types and their reference type counterpart.__
 
-| primitive |  Reference |
-|---|---|
-| boolean  | java.lang.Boolean  |
-| int  | java.lang.Integer  |
-|  long |  java.lang.Long |
+| primitive | Reference         |
+| --------- | ----------------- |
+| boolean   | java.lang.Boolean |
+| int       | java.lang.Integer |
+| long      | java.lang.Long    |
 
 __Q2 The boxing conversion converts the value of a primitive type to an object of the corresponding reference type. Give a code example on which the Java compiler performs this conversion automatically and explain why this conversion is helpful to the programmer in this example.__
 
@@ -71,7 +71,7 @@ Boolean bool = (Boolean) boolFalse;
 
 __Q3 Given that primitive types have a reference type counterpart, one might argue that the primitive types are redundant. Provide at least one argument motivating the existence of primitive types in Java and at least one argument against their existence.__
 
-Primitives are way more performant. Because primitives aren't objects and when they are used a lot then it can save a lot of memory and performance.
+Primitives are way more performant. Because primitives aren't objects and when they are used a lot, it can save a lot of memory and performance.
 
 ```java
 true == true; //this is faster
@@ -83,7 +83,7 @@ primitives.
 
 __Q4 Which parameter-passing strategy does Java apply? Explain your answer.__
 
-Java has an pass-by-value strategy. When a function is called with its parameters, the values will be copies and stored in stack memory of the function. The behavior is different when using primitive types and reference types. Primitives types hold the actual value and this value will be copied over. So changes that are made in the function will not transfer outside.
+Java has an pass-by-value strategy. When a function is called with its parameters, the values will be copied and stored in stack memory of the function. The behavior is different when using primitive types and reference types. Primitives types hold the actual value and this value will be copied over. So changes that are made in the function will not transfer outside.
 
 When using reference types you will actually be passing the pointer to this object to the function. The pointer will be copied to the stack memory. It will point to the same object. So changes made to this object will retain outside of the function.
 
@@ -100,20 +100,20 @@ This is most often the method that you want to use for comparing Strings.
 
 __Q6 In your own words, explain the difference between == and .equals() for all types.__
 
-For all reference type object it works as I have described in Q5. For primitives there is no equals() method because no methods exist on primitives.
+For all reference type object it works as we described in Q5. For primitives there is no equals() method because no methods exist on primitives.
 
 The equals method is from the class Object. All classes extends the Object class. So they will all have this function. The equals function can be overridden for classes that need a different equals method implementation.
 
 __Q7 Reflect on the previous questions and discuss for each whether it is about syntactic, semantic or pragmatic aspects of the language.__
 
-| Question | Aspect | The question is about |
-|---|---|--|
-| 1  | Syntax | How the syntax of primitives and references are |
-| 2  | Pragmatic  | The compiler automatically converts types and how this works  |
-| 3 | Semantic | Why do primitives exists? What does the code mean|
-| 4 |  Semantic | What does it mean when you are passing a paramater to a function |
-| 5 |  Pragmatic | What happens when you the '==' operator or the equals method |
-| 6 |  Pragmatic | What happens when you the '==' operator or the equals method |
+| Question | Aspect    | The question is about                                            |
+| -------- | --------- | ---------------------------------------------------------------- |
+| 1        | Syntax    | How the syntax of primitives and references are                  |
+| 2        | Pragmatic | The compiler automatically converts types and how this works     |
+| 3        | Semantic  | Why do primitives exists? What does the code mean                |
+| 4        | Semantic  | What does it mean when you are passing a parameter to a function |
+| 5        | Pragmatic | What happens when you the '==' operator or the equals method     |
+| 6        | Pragmatic | What happens when you the '==' operator or the equals method     |
 
 __Q8 In your own words, explain the concept of definite assignment. Why is it useful and why is it not perfect? Make a comparison with C and/or C++. How does definite assignment relate to the final keyword?__
 When for example you are branching in Java and are declaring a variable in both. like so:
@@ -233,14 +233,14 @@ public class Demo {
 __Q11 In Java it is possible to define classes within classes (i.e. to nest class definitions). Such classes are referred to as inner classes. What kinds of inner classes exist? Explain why inner classes can be useful__
 
 *Non-static Nested Classes:*
-Inner classes are a security/encapsulation mechanism in Java. In Java a class cannot be associated with the access modifier private, but if we have the class as a member of other class, then the inner class can be made private. This class can also be used to access the private members of a class. Inner classes are of three types depending on how and where you define them. They are:<sup>2</sup>
+Inner classes are a security/encapsulation mechanism in Java. In Java a class cannot be associated with the access modifier private, but if we have the class as a member of another class, then the inner class can be made private. This class can also be used to access the private members of a class. Inner classes are of three types depending on how and where you define them. They are:<sup>2</sup>
 
 - Inner Class: can be made private and can access member variables of its parent class.
 - Method-local Inner Class: you can even make an entire class within a class method.
 - Anonymous Inner Class: similar to a lambda function in functional programming languages you can directly implement a class without a definition using the following syntax<sup>2</sup>:
 
 ```JAVA
-// From within a existing class
+// From within an existing class
 AnonymousInner inner = new AnonymousInner() {
    public void mymethod() {
             System.out.println("This is an example of anonymous inner class");
@@ -253,7 +253,7 @@ A static inner class is like the above a nested class with the 'static' keyword.
 
 A few reason to use nested classes:
 
-- Increases encapsulation, if your parent class needs to do something 'difficult' it can use a nested class which only exposes certain things to the outside world. In this sense it is kinda of an interface to other developers and the inside implementation can be easily changed.
+- Increases encapsulation, if your parent class needs to do something 'difficult' it can use a nested class which only exposes certain things to the outside world. In this sense it is sort of an interface to other developers and the inside implementation can be easily changed.
 - It is a way of grouping related code. In Java you can only have one public class per file, so nesting classes can save a lot of new Java files, which makes sense if functionality is very intertwined.
 - In this way you could actually make multiple inheritance work.
 
@@ -279,12 +279,33 @@ public class Sample{
 }
 ```
 
+*constructor overloading*
+It is also possible to overload constructors. Constructor overloading can be useful whenever it is not sure if all parameters can be initialized straight away. When using constructor overloading it is possible to give parameters of the object some standard values whenever not all the parameters are given.
+
+```JAVA
+public class Student {  
+//instance variables of the class  
+int id;  
+String name;  
+  
+Student(int id){  
+   this.id = id;
+   this.name = "John Doe";  
+}  
+  
+Student(int id, String name){  
+   this.id = id;  
+   this.name = name;  
+}
+```
+
 *operator overloading*
 User defined operator overloading is not supported in Java. Some OO counterparts like C++, Python and Kotlin do support this feature.
 
+
 __Q13  In your own words, explain the overriding concept in Java. How does it relate to the final keyword?__
 
-In Java inheritance is used a lot, so as a subclass (inherited class) it is possible to use methods from the parent class. But it is often required to slightly adjust the parents' method, for example a to_string method would usually need to be implemented differently. Re-implementing a parents function is called overriding. Overriding is not allowed when the 'final' keyword is present in the parents class. See below example which will give a compilation error:
+Inheritance is used a lot in Java, so as a subclass (inherited class) it is possible to use methods from the parent class. But it is often required to slightly adjust the parents' method, for example a to_string method would usually need to be implemented differently. Re-implementing a parents function is called overriding. Overriding is not allowed when the 'final' keyword is present in the parents class. See below example which will give a compilation error:
 
 ```JAVA
 class Boat {
@@ -348,7 +369,7 @@ public class App
 
 __Q16  Enum declarations simplify working with types of enumerable values. Enum declarations introduce normal classes (and are in that sense redundant) but add certain conveniences to the programmer. What functionality is generated by the Java compiler for Enum declarations? How do Enum declarations simplify working with enumerable types for the programmer?__
 
-An enum class is basically a wrapper around a set of constant values. Just like in C enums can be represented under the hood as a simple integer number but have a but more functionality in Java. Enums are used in any language to work with a certain set of constants and improve readability using these constants (like using them in a switch statement), in Java enums also improve type-safety.
+An enum class is basically a wrapper around a set of constant values. Just like in C, enums can be represented under the hood as a simple integer number but have a bit more functionality in Java. Enums are used in any language to work with a certain set of constants and improve readability using these constants (like using them in a switch statement), in Java enums also improve type-safety.
 
 The extra functionality that the Java compiler adds is:
 
